@@ -1,0 +1,19 @@
+{% set navigation_bar = [
+    ('/', 'home', 'Home'),
+	('/dataset', 'dataset', 'Dataset'),
+    ('/training_page', 'train', 'Train'),
+    ('/image_detection', 'detection', 'Detection'),
+    ('/contact', 'contact', 'Contact'),
+] -%}
+
+{% set active_page = active_page|default('home') -%}
+
+<div class="ui inverted segment" id="menu-navigation">
+  <div class="ui inverted secondary pointing menu">
+    {% for href, id, caption in navigation_bar %}
+      <a href="{{ href|e }}" class = "item{% if id == active_page %} active"{% else %}"{% endif%}>
+        {{ caption|e }}
+      </a>
+    {% endfor %}
+  </div>
+</div>

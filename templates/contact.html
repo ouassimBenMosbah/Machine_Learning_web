@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <title>Contact Page</title>
+    {% include 'head.html' %}
+
+    <body>
+        {% set active_page = "contact" %}
+        {% include 'header.html' %}
+
+        <div class="ui grid container">
+
+
+
+            <!-- CONTACT US SECTION-->
+            <div class="ui equal width grid">
+                <div class="column">
+                    <h4>
+                        <span class="bold">Contact us</span>
+                    </h4>
+                    <p>
+                        <span class="bold"> IBM client center Montpellier</span>
+                        <br/> Parc Technologique de la Pompignane
+                        <br/> 34060 Montpellier
+                        <br/> <i class="france flag"></i> France
+                    </p>
+                </div>
+                <!--<div class="ui vertical divider">
+                    or
+                </div>-->
+                <div class="column">
+                    <h4>
+                        <span class="bold"> Ask IBM </span>
+                    </h4>
+                    <p>
+                        For answers to general questions about our <span class="bold">GPUs</span>, <span class="bold">Spectrum Scale</span> or any question about this web interface, you can contact the experts of this project: 
+
+                        <div class="ui middle aligned divided list">
+                            <div class="item">
+                            </div>
+                            <div class="item">
+                                <i class="circular mail icon"></i>
+                                <div class="content">
+                                    <a href="mailto:laurent.revel@fr.ibm.com?Subject=SDI%20ML%20informations" target="_top">Laurent REVEL</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="circular mail icon"></i>
+                                <div class="content">
+                                    <a href="mailto:regiscel@fr.ibm.com?Subject=SDI%20ML%20informations" target="_top">Regis CELY</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                            </div>
+                        </div>
+                    </p>
+                </div>
+                <!--<div class="ui vertical divider">
+                    and
+                </div>-->
+                <div class="column">
+                    <h4>
+                        <span class="bold">Join us</span>
+                    </h4>
+                    <div class="ui middle aligned divided list">
+                        <div class="item">
+                            <i class="circular blue facebook square icon"></i>
+                            <div class="content">
+                                <a class="header" href="http://www.facebook.com/IBM">Like IBM on Facebook</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="circular arrow circle right icon"></i>
+                            <div class="content">
+                                <a class="header" href="https://www.ibm.com/ibm/clientcenter/tour/montpellier/tour.html?startscene=0&startactions=lookat(90.94,3.2,120,0,0);">IBM Client Center Montpellier 360° tour</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="circular arrow circle right icon"></i>
+                            <div class="content">
+                                <a class="header" href="http://vshow.on24.com/vshow/ibmvcc?regPageId=3311&l=fr#exhibits/IMBCC">IBM Virtual Client Center</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'footer.html' %}
+
+     </body>
+</html>
+

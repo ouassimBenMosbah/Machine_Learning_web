@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Caffe Demos</title>
+    {% include 'head.html' %}
+
+  <body>
+    {% set active_page = "detection" %}
+    {% include 'header.html' %}
+
+    <div class="ui grid container">
+      <div class="ui header">
+        <h3 class="center aligned">In this page we will give an image to the web interface so it can tries to guess what is the content of the image.</h3>
+      </div>
+    
+      {% if has_result %}
+        {% if not result[0] %}
+          <!-- we have error in the result. -->
+          <div class="ui error message">
+            <div class="header">Action Forbidden</div>
+            <p>{{ result[1] }} Did you provide a valid URL or a valid image file? </p>
+          </div>
+        {% else %}
+          <div class="ui container">
+            <div class="ui success message">
+              <div class="header">Success!</div>
+              <p> The Conventional Neuronal Network (CNN) took {{ totaltime }} seconds to make predictions on your image. </p>
+              <p>See our predictions below.</p>
+            </div>
+            <div class="ui equal width grid">
+              <div class="column">
+                <a class="pull-left" href="#"><img class="ui middle aligned medium image" src={{ imagesrc }}></a>
+              </div>
+              <div class="column">
+                <table class="ui two column inverted grey table">
+                  <thead>
+                    <tr><th>Label</th>
+                    <th>Probabilities</th>
+                  </tr></thead><tbody>
+                    {% for x in result %}
+                    <tr>
+                      <td><a href="https://duckduckgo.com/?q={{ x[0] }}" target="_blank" class="prediction-label">{{ x[0] }}</a></td>
+                      <td>{{ x[1] }} %</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+           </div>
+        {% endif %}
+      {% endif %}
+      
+      {% if existingModel|length > 0 %}
+        <div class="row">
+          <div class="column">
+            <form action="">
+              <label for="model" class="bold">Select the image location </label>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input id="url-radio" type="radio" name="imageLocation" value="url" class="hidden" checked><label for="url-radio"> URL</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input id="local-radio" type="radio" name="imageLocation" value="local" class="hidden"><label for="computer-radio"> On my computer</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <div class="ui form" id="form_url">
+              <div class="grouped fields">
+                <form role="form" action="classify_url" method="post"> 
+
+                  <h2 class="ui horizontal divider header"><i class="settings icon"></i>Training parameters</h2>
+                  <label for="model" class="bold">Select the type of hardware you will use for the prediction:</label>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input id="cpu-radio" type="radio" name="solvermode" value="cpu" checked="checked" class="hidden"><label for="cpu-radio">CPU</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input id="gpu-radio" type="radio" name="solvermode" value="gpu" class="hidden"><label for="gpu-radio">GPU</label>
+                    </div>
+                  </div>
+
+                  <h2 class="ui horizontal divider header"><i class="database icon"></i>Model</h2>
+                  <label for="model" class="bold">Select a standard model based on the following models:</label>
+                  {% if existingModel.cifar10quick %}
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input id="cifar10quick" type="radio" name="model" value="cifar10quick" class="dataset-train-check hidden"><label for="cifar10quick">CIFAR10 QUICK</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% if existingModel.cifar10full %}
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input id="cifar10full" type="radio" name="model" value="cifar10full" class="dataset-train-check hidden"><label for="cifar10full">CIFAR10 FULL</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% if existingModel.mnist %}
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input id="mnist" type="radio" name="model" value="mnist" class="dataset-train-check hidden"><label for="mnist">MNIST</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                  <h4 class="ui header">
+                    <i class="image icon"></i>
+                    <div class="content">
+                      Enter an image url there
+                    </div>
+                  </h4>
+                  <div class="ui labeled input">
+                    <div class="ui label">
+                      http://
+                    </div>
+                    <input type="text" class="form-control" name="imageurl" id="imageurl" placeholder="Provide an image URL">
+                    <input class="ui blue submit button" value="Classify URL" type="submit" id="classifyurl" ></input>
+                  </div>
+                  <h4 class="ui header">
+                    <i class="idea icon"></i>
+                    <div class="content">
+                      Or you can choose a quick example
+                    </div>
+                  </h4>
+
+                  <select class="ui search dropdown" id="quick-example">
+                    <option value="">Examples</option>
+                    <option value="http://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/landing1015-airplane.jpg">Airplane</option>
+                    <option value="https://sniteartmuseum.nd.edu/assets/166204/original/ferrari.jpg">Automobile</option>
+                    <option value="http://dreamicus.com/data/bird/bird-05.jpg">Bird</option>
+                    <option value="https://www.wanimo.com/veterinaire/images/articles/chat/chat-hyperesthsie.jpg">Cat</option>
+                    <option value="http://www.thunder1320.com/wp-content/uploads/2014/10/Deer.jpg">Deer</option>
+                    <option value="http://blog.gudog.com/wp-content/uploads/2015/07/cute-dog-pup.jpg">Dog</option>
+                    <option value="http://i3.kym-cdn.com/entries/icons/original/000/020/095/white_lipped_tree_frog_3.jpg">Frog</option>
+                    <option value="http://animal-dream.com/data_images/horse/horse2.jpg">Horse</option>
+                    <option value="http://www.trbimg.com/img-5706a9a4/turbine/la-fi-hy-henrik-fisker-boat-20160404-001/750/750x422">Ship</option>
+                    <option value="http://supremecorp.com/wp-content/uploads/2015/04/Curtainside-Truck-rtch-CATEGORY.png">Truck</option>
+                  </select>
+                </form>
+              </div>
+            </div>
+            <div class="ui form" id="form_local">
+              <div class="grouped fields">
+                <form role="form" action="classify_upload" method="post" enctype=multipart/form-data> 
+
+                  <h2 class="ui horizontal divider header"><i class="settings icon"></i>Training parameters</h2>
+                  <label for="model" class="bold">Select the type of hardware you will use for training phase:</label>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input id="cpu-radio" type="radio" name="solvermode" value="cpu" checked="checked" class="hidden"><label for="cpu-radio">CPU</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input id="gpu-radio" type="radio" name="solvermode" value="gpu" class="hidden"><label for="gpu-radio">GPU</label>
+                    </div>
+                  </div>
+
+                  <h2 class="ui horizontal divider header"><i class="database icon"></i>Model</h2>
+                  <label for="model" class="bold">Select a standard model based on the following models:</label>
+                  {% if existingModel.cifar10quick %}
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input id="cifar10quick" type="radio" name="model" value="cifar10quick" class="dataset-train-check hidden"><label for="cifar10quick">CIFAR10 QUICK</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% if existingModel.cifar10full %}
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input id="cifar10full" type="radio" name="model" value="cifar10full" class="dataset-train-check hidden"><label for="cifar10full">CIFAR10 FULL</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% if existingModel.mnist %}
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input id="mnist" type="radio" name="model" value="mnist" class="dataset-train-check hidden"><label for="mnist">MNIST</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                  <h4 class="ui header">
+                    <i class="image icon"></i>
+                    <div class="content">
+                      You can upload an image there
+                    </div>
+                  </h4>
+                  <div class="ui four column grid">
+                    <div class="row">
+                      <div class="column">
+                        <input type="file"  name="imagefile" id="imagefile" class="dropify" data-max-file-size="2M"/>
+                      </div>
+                    </div>
+                  </div>
+                  <input class="ui blue submit button" value="Classify image" type="submit" id="validateOwnImage">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    {% include 'footer.html' %}
+ </body>
+</html>

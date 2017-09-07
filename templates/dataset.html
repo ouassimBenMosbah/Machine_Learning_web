@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Create Dataset For Demo</title>
+    {% include 'head.html' %}
+
+  <body>
+    {% set active_page = "dataset" %}
+    {% include 'header.html' %}
+
+    {% if infos[0] == 'GET' and infos[2] %}
+      <div class="ui basic modal">
+        <div class="ui icon header">
+          <i class="archive icon"></i>
+          Operation impossible
+        </div>
+        <div class="content">
+          <p>The dataset you are trying to download is being downloaded or is already in your database !</p>
+        </div>
+        <div class="actions">
+          <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            Ok
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="ui grid container">
+      <div class="ui header">
+        <h3 class="center aligned">In this page we will choose a dataset and create a Lightning Memory-Mapped Database (LMDB) with it
+        </h3>
+      </div>
+
+      <!-- ne pas modifier le commentaire ci-dessous -->
+      <!-- jklezffzelkj -->
+
+      <div class="row">
+        <div class="column">
+          <div id="download-bar">
+            {% if infos[1] %}
+              <div id="progression-bar" class="ui indicating active progress" data-percent="{{ infos[3][1][:-1] }}">
+                <div class="bar">
+                  <div class="progress"></div>
+                </div>
+                <div class="label">Downloading files. {{ infos[3][3] }} left</div>
+              </div>
+              <script type="text/javascript">var percentage = {{ infos[3][1][:-1]|safe }};$('#progression-bar').progress({percent: percentage});</script>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+              
+      <!-- ne pas modifier le commentaire ci-dessous -->
+      <!-- fzelkjjklezf -->
+
+      <div class="row">
+        <div class="column">
+          <div class="ui form">
+            <div class="grouped fields">
+              <label for="dataset">Select the dataset you want to store in the database:</label>
+              <form role="form" action="create_standard_dataset" method="get"> <!-- train_url a creer -->
+                <div class="field">
+                  <div class="ui checkbox" id="dataset-mnist-checkbox">
+                    <input id ="mnist" type="checkbox" name="mnist" value="true" class="hidden">
+                    <label for="mnist">MNIST</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui checkbox" id="dataset-cifar10-checkbox">
+                    <input id ="cifar10" type="checkbox" name="cifar10" value="true" class="hidden">
+                    <label for="cifar10">CIFAR10</label>
+                  </div>
+                </div>
+                <input class="ui primary button" value="Validate" type="submit" id="validateStandardDataset" disabled>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="column">
+          <div class="ui warning message warning-message">
+            <i class="close icon hide-icon"></i>
+            <div class="header">
+              Or you can upload your own dataset!
+            </div>
+            <ul class="list">
+              <li>If you upload your own dataset check that all your images have one of those extensions: png,  bmp,  jpg,  jpe,  jpeg,  gif</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="column">
+          <form id="customDataset" class="ui form segment" role="form" action="createDBCustomDataset" method="post" enctype="multipart/form-data"> 
+            <div class="field">
+              <label for="upload_file_dataset">Upload a folder containing your dataset:</label>
+              <input type="file" multiple webkitdirectory id="upload_file_dataset">
+            </div>
+            <div class="ui buttons">
+              <input class="ui blue submit button value-to-reset" value="Submit" type="submit" id="validateOwnDataset" disabled>
+              <div class="or"></div>
+              <input class="ui red reset button" value="Reset" type="button" onClick="myOwnReset();">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% include 'footer.html' %}
+ </body>
+</html>

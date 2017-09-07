@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Index Page</title>
+    {% include 'head.html' %}
+
+  <body>
+    {% set active_page = "home" %}
+    {% include 'header.html' %}
+    <div class="ui grid container">
+      <div class="row">
+        <div class="column">
+          <div class="ui message blurring dimmable">
+            <div class="ui dimmer">
+              <div class="content">
+                <div class="center">
+                  <a target="_blank" href="https://www.ibm.com/cloud-computing/bluemix/gpu-computing"><div class="ui primary button">Learn more about our GPU</div></a>
+                </div>
+              </div>
+            </div>
+            <img class="ui fluid image" src="{{url_for('static', filename='css/images/IBM_powersystem.png')}}" alt="GPU from IBM">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <div class="ui floating message">
+            <div class="ui equal width grid">
+              <div class="column">
+                <div class="ui huge header">
+                  What is a GPU?
+                </div>
+                <div>
+                  <p><br/>In a cloud environment, GPUs work in conjunction with a server’s CPU to accelerate application and processing performance. The CPU offloads compute-intensive portions of the application to the GPU, which processes large blocks of data at one time rather than sequentially boosting the overall performance in a server environment.<br/>
+                  <br/>
+                  Choose between the NVIDIA Tesla, designed for high performance acceleration of scientiﬁc computation and data analytics, or NVIDIA GRID, engineered for professional grade virtualized graphics.</p>
+                </div>
+              </div>
+              <div class="column">
+                <img class="ui image" src="{{url_for('static', filename='css/images/ibm_servers.jpeg')}}" alt="IBM servers">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   {% include 'footer.html' %}
+ </body>
+</html>

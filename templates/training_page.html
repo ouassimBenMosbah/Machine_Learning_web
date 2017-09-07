@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Train The Server To A Dataset</title>
+    {% include 'head.html' %}
+
+  <body>
+    {% set active_page = "train" %}
+    {% include 'header.html' %}
+
+    <div class="ui grid container">
+      <div class="ui header">
+        <h3 class="center aligned">In this page we will give to Caffe a LMDB database so the server can train on it and create a model.
+        </h3>
+      </div>
+
+      {% if has_result %}
+        {% if not result[0] %}
+          <!-- we have error in the result. -->
+          <div class="alert alert-danger">{{ result[1] }} Did you provide a valid URL or a folder with a valid dataset? </div>
+        {% else %}
+          <!-- write the code for the training -->
+        {% endif %}
+        <hr>
+      {% endif %}
+
+      <div id="tliczeubgteipb" class="row">
+        <div class="column">
+          <div id="training-progression-information">
+          {% if information == 'The server is not training' %}
+            <div class="ui message">
+              <div class="header">
+                {{ information }}
+              </div>
+              <p>Training statistics will be displayed when you will launch the form bellow</p>
+            </div>
+          {% else %}
+            <div class="ui icon message">
+              <i class="asterisk loading icon"></i>
+              <div class="content">
+                <div class="header">
+                  {{ information_title }}
+                </div>
+                <p>{{ information }}</p>
+              </div>
+            </div>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- iprzhbgrzobgbvreo -->
+
+      {% if existingDataset|length > 0 %}
+      <div class="row">
+        <div class="column">
+          <div class="ui form">
+            <div class="grouped fields">
+              <form role="form" action="train_standard_model" method="post"> 
+
+                <h2 class="ui horizontal divider header"><i class="settings icon"></i>Training parameters</h2>
+                <label for="training" class="bold">Select the type of hardware you will use for training phase:</label>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input id="cpu-radio" type="radio" name="solvermode" value="cpu" checked="checked" class="hidden"><label for="cpu-radio">CPU</label>
+                  </div>
+                </div>
+                {% if stats[0] %}
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input id="gpu-radio" type="radio" name="solvermode" value="gpu" class="hidden"><label for="gpu-radio">GPU</label>
+                  </div>
+                </div>
+                {% endif %}
+                <h2 class="ui horizontal divider header"><i class="database icon"></i>Model</h2>
+                <label for="" class="bold">Select a standard model based on the following datasets:</label>
+                {% if existingDataset.mnist %}
+                  <div class="field">
+                    <div class="ui radio checkbox" id="train-mnist-checkbox">
+                      <input id="mnist" type="radio" name="model" value="mnist" class="dataset-train-check hidden"><label for="mnist">MNIST</label>
+                    </div>
+                  </div>
+                {% endif %}
+                {% if existingDataset.cifar10 %}
+                  <div class="field">
+                    <div class="ui radio checkbox" id="train-cifar10-quick-checkbox">
+                      <input id="cifar10quick" type="radio" name="model" value="cifar10quick" class="dataset-train-check hidden"><label for="cifar10quick">CIFAR10 QUICK</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox" id="train-cifar10-full-checkbox">
+                      <input id="cifar10full" type="radio" name="model" value="cifar10full" class="dataset-train-check hidden"><label for="cifar10full">CIFAR10 FULL</label>
+                    </div>
+                  </div>
+                {% endif %}
+                             
+                <input class="ui primary button" value="Validate" type="submit" id="validateStandardModel" disabled>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="row">
+        <div class="column">
+          <h2 class="ui horizontal divider header"><i class="bar chart icon"></i>Statistics</h2>
+          <div id="gpu_cpu_gauge">
+            <!-- ne pas modifier le commentaire ci-dessous -->
+            <!-- abcdgfdqpjfzeqssd -->
+
+            {% if true %}
+              <div class="ui sizer vertical segment">
+                <div class="ui one statistics">
+                  <div class="brown statistic">
+                    <div class="text value">
+                      {{stats[4]}}
+                    </div>
+                    <div class="label">
+                      <!-- -->
+                    </div>
+                  </div>
+                </div>
+
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+
+                <div class="ui four statistics">
+                  <div class="grey statistic">
+                    <div class="text value">
+                      Tesla K80
+                    </div>
+                    <div class="label">
+                      GPU1 type
+                    </div>
+                  </div>
+                  <div class="blue statistic">
+                    <div class="value">
+                      11.4G
+                    </div>
+                    <div class="label">
+                      Total Memory
+                    </div>
+                  </div>
+                  <div class="red statistic">
+                    <div class="value">
+                      66M
+                    </div>
+                    <div class="label">
+                      Used Memory
+                    </div>
+                  </div>
+                  <div class="red statistic">
+                    <div class="value">
+                      45
+                    </div>
+                    <div class="label">
+                      % use
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--[0] Tesla K80 | 45'C, 0 % | 66 / 11441 MB | python(64M)
+
+              [1] Tesla K80 | 32'C, 0 % | 2 / 11441 MB |
+              [2] Tesla K80 | 35'C, 0 % | 2 / 11441 MB |
+              [3] Tesla K80 | 30'C, 0 % | 2 / 11441 MB |-->
+            {% else %}
+              <div class="ui warning message warning-message">
+                <div class="header">Sorry</div>
+                <ul class="list"><li>Your GPU haven't available informations to display</li></ul>
+              </div>
+            {% endif %}
+
+            {% if stats[2] %}
+              <br/>
+              <br/>
+              <br/>
+
+              <div class="ui four statistics">
+                <div class="grey statistic">
+                  <div class="value">
+                    {{stats[3][0]}}
+                  </div>
+                  <div class="label">
+                    CPU
+                  </div>
+                </div>
+                <div class="blue statistic">
+                  <div class="value">
+                    {{stats[3][1]}}
+                  </div>
+                  <div class="label">
+                    Total Memory
+                  </div>
+                </div>
+                <div class="red statistic">
+                  <div class="value">
+                    {{stats[3][2]}}
+                  </div>
+                  <div class="label">
+                    Used Memory
+                  </div>
+                </div>
+                <div class="red statistic">
+                  <div class="value">
+                    {{stats[3][3]}}
+                  </div>
+                  <div class="label">
+                    % use
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <div class="ui warning message warning-message">
+                <div class="header">Sorry</div>
+                <ul class="list"><li>Your CPU haven't available informations to display</li></ul>
+              </div>
+            {% endif %}
+
+            <!-- ne pas modifier le commentaire ci-dessous -->
+            <!-- abcdgfduipjfzeqssd -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include 'footer.html' %}
+ </body>
+</html>

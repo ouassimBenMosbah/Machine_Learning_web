@@ -1,0 +1,8 @@
+werkzeug
+flask
+tornado
+numpy
+pandas
+pillow
+pyyaml
+sphinx
